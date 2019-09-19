@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "6453c2ac-9c63-4e12-a721-32f759002b0a",
+		"name": "ConfigServer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test ConfigServer Configuration-LIVE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e612f08-f359-48d1-a75e-4a243f26f3da",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"`spring.rabbitmq.host` as config property should be mapped to configserver\", function () {",
+							"    var jsonData = pm.response.json();",
+							"",
+							"    var configKey = pm.variables.get(\"configkey\");",
+							"    var configServer = pm.variables.get(\"configserver\");",
+							"    var hasConfigured = true;",
+							"    ",
+							"    for (count = 0; count < jsonData.propertySources.length; count++) {",
+							"      var sourceJson = jsonData.propertySources[count].source;",
+							"      ",
+							"      if (sourceJson.hasOwnProperty(configKey) && sourceJson[configKey] != configServer) {",
+							"          hasConfigured = false;",
+							"          break;",
+							"      }",
+							"    }",
+							"",
+							"    pm.expect(hasConfigured).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://configserver.mgmt.mytaxi.com/springconfig/{{servicename}}/live",
+					"protocol": "https",
+					"host": [
+						"configserver",
+						"mgmt",
+						"mytaxi",
+						"com"
+					],
+					"path": [
+						"springconfig",
+						"{{servicename}}",
+						"live"
+					]
+				},
+				"description": "This test will check whether config server creates the config bean properly."
+			},
+			"response": []
+		},
+		{
+			"name": "Test ConfigServer Configuration-PRELIVE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e612f08-f359-48d1-a75e-4a243f26f3da",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"`spring.rabbitmq.host` as config property should be mapped to configserver\", function () {",
+							"    var jsonData = pm.response.json();",
+							"",
+							"    var configKey = pm.variables.get(\"configkey\");",
+							"    var configServer = pm.variables.get(\"configserver\");",
+							"    var hasConfigured = true;",
+							"    ",
+							"    for (count = 0; count < jsonData.propertySources.length; count++) {",
+							"      var sourceJson = jsonData.propertySources[count].source;",
+							"      ",
+							"      if (sourceJson.hasOwnProperty(configKey) && sourceJson[configKey] != configServer) {",
+							"          hasConfigured = false;",
+							"          break;",
+							"      }",
+							"    }",
+							"",
+							"    pm.expect(hasConfigured).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://configserver.mgmt.mytaxi.com/springconfig/{{servicename}}/testcfg,prelive",
+					"protocol": "https",
+					"host": [
+						"configserver",
+						"mgmt",
+						"mytaxi",
+						"com"
+					],
+					"path": [
+						"springconfig",
+						"{{servicename}}",
+						"testcfg,prelive"
+					]
+				},
+				"description": "This test will check whether config server creates the config bean properly."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4cbd8408-6fb0-4dd9-896f-9f17da0504f2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "1b8be59d-4359-4ff7-bf51-9b5d03cf09e0",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "60c1839e-5eb9-4d2a-af5e-c807bee86819",
+			"key": "configkey",
+			"value": "spring.rabbitmq.host",
+			"type": "string"
+		},
+		{
+			"id": "d7b8c4df-9035-4120-9ed0-d4e8536f3ade",
+			"key": "configserver",
+			"value": "configbus.mgmt.mytaxi.com",
+			"type": "string"
+		}
+	]
+}

@@ -20,8 +20,8 @@
 							"pm.test(\"`spring.rabbitmq.host` as config property should be mapped to configserver\", function () {",
 							"    var jsonData = pm.response.json();",
 							"",
-							"    var configKey = pm.variables.get(\"configkey\");",
-							"    var configServer = pm.variables.get(\"configserver\");",
+							"    var configKey = pm.environment.get(\"configkey\");",
+							"    var configServer = pm.environment.get(\"configserver\");",
 							"    var hasConfigured = true;",
 							"    ",
 							"    for (count = 0; count < jsonData.propertySources.length; count++) {",
@@ -77,8 +77,8 @@
 							"pm.test(\"`spring.rabbitmq.host` as config property should be mapped to configserver\", function () {",
 							"    var jsonData = pm.response.json();",
 							"",
-							"    var configKey = pm.variables.get(\"configkey\");",
-							"    var configServer = pm.variables.get(\"configserver\");",
+							"    var configKey = pm.environment.get(\"configkey\");",
+							"    var configServer = pm.environment.get(\"configserver\");",
 							"    var hasConfigured = true;",
 							"    ",
 							"    for (count = 0; count < jsonData.propertySources.length; count++) {",
@@ -118,6 +118,57 @@
 				"description": "This test will check whether config server creates the config bean properly."
 			},
 			"response": []
+		},
+		{
+			"name": "Test Configserver has HotReload webhook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d49a259-c537-4614-9fec-3849a3ba6d71",
+						"exec": [
+							"pm.test(\"No configuration webhooks present to support hot reloading. Check `https://confluence.intapps.it/display/CORE/SpringCloud+Config+-+Show+Case+-+Etaservice`\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.size).to.be.above(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": " Basic cm9oaXRoLnZlZWR1OkhlbnJ5Y2FybG9zQDg5MTk=",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://stash.intapps.it/rest/api/1.0/projects/CON/repos/{{servicename}}/webhooks",
+					"protocol": "https",
+					"host": [
+						"stash",
+						"intapps",
+						"it"
+					],
+					"path": [
+						"rest",
+						"api",
+						"1.0",
+						"projects",
+						"CON",
+						"repos",
+						"{{servicename}}",
+						"webhooks"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -144,13 +195,13 @@
 	],
 	"variable": [
 		{
-			"id": "60c1839e-5eb9-4d2a-af5e-c807bee86819",
+			"id": "9ed2eabe-55bb-4465-b582-96aa79a1aab1",
 			"key": "configkey",
 			"value": "spring.rabbitmq.host",
 			"type": "string"
 		},
 		{
-			"id": "d7b8c4df-9035-4120-9ed0-d4e8536f3ade",
+			"id": "2417a67f-2a90-441a-a6fb-f9a1b97e2018",
 			"key": "configserver",
 			"value": "configbus.mgmt.mytaxi.com",
 			"type": "string"
